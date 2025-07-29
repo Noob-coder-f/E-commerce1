@@ -18,6 +18,9 @@ const Login = () => {
 
             if(Response.data.success){
                 console.log('Login successful:', Response.data) 
+            // Save token or user data if needed
+            // console.log('Token:', Response.data.token)
+            localStorage.setItem('token', Response.data.token)
 
             // Redirect or show success message
             navigate('/home')
@@ -57,7 +60,7 @@ const Login = () => {
                 <div className="name flex flex-col justify-center items-center  top-3  p-2">
 
                 <button className='bg-blue-500 text-white px-10 m-2  rounded-md  hover:bg-blue-600'>Login</button> 
-                <p>New user <Link to='signup' className='underline text-blue-400 text-center'> register here</Link></p>
+                <p>New user <Link to='/signup' className='underline text-blue-400 text-center'> register here</Link></p>
                 </div>
             </form>
         </div>

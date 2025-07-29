@@ -54,7 +54,7 @@ export const login=async(req,res)=>{
     // Generate JWT token
     const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN });
 
-    res.status(200).json({  success:true ,message:"login successfull baackend",token , user: {id:user.id ,name:user.name,email:user.email}})
+    res.status(200).json({  success:true ,message:"login successfull baackend",token , user: {id:user._id ,name:user.name,email:user.email}})
     
    } catch (error) {
     console.error("login error",error)
@@ -74,5 +74,4 @@ export const getUsers=async (req,res)=>{
         
     }
 
-    // await res.status(200).json({User:User});
 }

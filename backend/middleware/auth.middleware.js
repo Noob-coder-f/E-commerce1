@@ -1,36 +1,20 @@
-// import jwt from 'jsonwebtoken';
-
-// export const authenticateToken=(req , res,next)=>{
-
-//     const authHeader=req.headers['authorization'];  // Get the authorization header
-//     const token=authHeader && authHeader.split(' ')[1]; // Extract the token from the header
-//     if(!token){
-//         return res.status(401).json({message:"Access denied, no token provided"});
-//     }
-
-//     try {
-//         console.log("Token:", token); // Log the token for debugging
-      
-//       const decode=  jwt.verify(token,process.env.JWT_SECRET)
-
-//         req.user=decode; // Attach the user information to the request object
-//         next(); // Call the next middleware or route handler
-    
-        
-//     } catch (error) {
-//         return res.status(403).json({message:"Invalid token"});
-        
-//     }
-// }
-
-
-
 
 import jwt from 'jsonwebtoken';
 
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+
+  const token = authHeader && authHeader.split(' ')[1];  
+
+    /*authHeader.split(' ')
+If authHeader exists, this splits the string by spaces.
+For example, if authHeader is "Bearer abc123",
+
+authHeader.split(' ') // ["Bearer", "abc123"]
+==>authHeader.split(' ')[1]  [1]=> this retrieves the second element of the array, which is the actual token.
+In this case, it would be "abc123".
+
+*/
 
 //   console.log("Token:", token);
 

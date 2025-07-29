@@ -74,7 +74,7 @@ const Signup = () => {
                 <div className="name flex flex-col justify-center items-center  top-3  p-2">
 
                     <button className='bg-blue-500 text-white px-10 m-2  rounded-md  hover:bg-blue-600'>Signup</button>
-                    <p>Already a user <Link to='login' className='underline text-blue-400 text-center'> Login here</Link></p>
+                    <p>Already a user <Link to='/login' className='underline text-blue-400 text-center'> Login here</Link></p>
                 </div>
             </form>
         </div>
