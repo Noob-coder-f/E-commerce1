@@ -14,6 +14,15 @@
 import React, { useEffect, useState } from 'react'
 const Ts = () => {
 
+    const [data, setData] = useState([])
+
+    console.log("in Ts.jsx")
+
+    useEffect(() => {   
+        //is api ko useeffect ke bahr call krenge to ye infinte loop me chala jayega isi side effect ko doo rkrne ke liye useEffect ka use krenge
+            fetch('https://jsonplaceholder.typicode.com/users').then(res=>res.json()).then(json=>setData(json));
+    }, [])
+
     // const [data, setData] = useState({
     //     name: '',
     //     email: '',
@@ -39,17 +48,27 @@ const Ts = () => {
 
             // useEffect 
 
-            const [count, setCount] = useState(0)
-            console.log('before use Effect')
-            useEffect(()=>{
-                console.log("useEffect called")
+            // const [count, setCount] = useState(0)
+            // console.log('before use Effect')
+            // useEffect(()=>{
+            //     console.log("useEffect called")
                 
-            },[])
+            // },[])
 
 
 
     return (
-        <div className='flex  flex-col justify-center items-center h-screen'>
+        <div className='flex  flex-col justify-center items-center h-90 w-80 gap-4 font-semibold shadow-lg'>
+
+            <h1>User List</h1>
+            <ul className='  stroke-amber-50'>
+                {
+                    data.map((users)=>(
+                        <li className='list-disc' key={users.id}>{users.name}</li>
+                    )
+                )
+                }
+            </ul>
             {/* <form onSubmit={handleSubmit} className='border border-black flex flex-col justify-center items-center h-80 w-60 gap-2'>
 
                 <input type="text" className='border' placeholder='name' name='name' value={data.name} onChange={showData} />
@@ -67,10 +86,10 @@ const Ts = () => {
                 <p>Selected: {gender}</p>
             </form> */}
 
-            <h2>No dependency Array = render method (Class Component)</h2>
+            {/* <h2>No dependency Array = render method (Class Component)</h2>
             {console.log("in return")}
             <h1> Count:{count}</h1>
-            <button onClick={()=>setCount(count+1)}>Click</button>
+            <button onClick={()=>setCount(count+1)}>Click</button> */}
 
         </div>
     )

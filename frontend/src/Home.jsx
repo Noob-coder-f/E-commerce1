@@ -3,9 +3,11 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import Contact from './Contact'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
     const [card, setCard] = useState([])
+    const navigate=useNavigate()
 
     const getCards = async () => {
          axios.get('http://localhost:8000/api/get-cards').then(res => {
@@ -14,8 +16,9 @@ const Home = () => {
                 // const cards = res.data.cards
                 setCard(res.data.cards)
                 // const card = res.data.cards
+                
 
-                console.log('Cards fetched successfully:', card)
+                console.log('Cards fetched successfully:', card )
             }
             else {
                 console.log('Failed to fetch cards:', res.data.message)
@@ -28,6 +31,9 @@ const Home = () => {
     }
 
     useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            navigate('/login')
+        }
 
         getCards();
        

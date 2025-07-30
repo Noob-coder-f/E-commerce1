@@ -19,11 +19,7 @@ button {
 
 }
 
-button:hover{
-    background-color: #4a5568; /* Darker shade for hover effect */
-    color: white; /* Ensure text is readable on dark background */
-    border: white 1px solid; /* Optional: add border for better visibility */
-}
+
 
 
 .navbar-css{
