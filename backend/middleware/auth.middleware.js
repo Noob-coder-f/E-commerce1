@@ -3,8 +3,10 @@ import jwt from 'jsonwebtoken';
 
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
+  // console.log("Authorization header:", authHeader);
 
   const token = authHeader && authHeader.split(' ')[1];  
+  // console.log("Token from header:", token);
 
     /*authHeader.split(' ')
 If authHeader exists, this splits the string by spaces.

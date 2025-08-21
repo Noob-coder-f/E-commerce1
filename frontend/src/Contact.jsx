@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const Contact = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()  
+    console.log(' contact Form submitted')
+  }
   return (
     <div className='h-screen w-full flex justify-center items-center flex-col'>
       <h1 className='text-2xl font-bold text-center p-2 underline'>Contact Us</h1>
         <p className='text-center font-bold'>For any inquiries, please reach out to us at:</p>
 
       <div className='container flex justify-center  h-screen w-full p-5'>
-            <form  className='flex flex-col justify-center items-center  border border-gray-400  h-90 w-100 '>
+            <form  onSubmit={handleSubmit} className='flex flex-col justify-center items-center  border border-gray-400  h-90 w-100 '>
 
                
 

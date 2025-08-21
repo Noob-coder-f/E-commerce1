@@ -4,39 +4,79 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import Contact from './Contact'
 import { useNavigate } from 'react-router-dom'
+import { useCart } from './context/CartContext'
 
 const Home = () => {
+
+    // const { addToCart } = useCart() // get addToCart function
+    const { addToCart } = useCart(); // get addToCart function
+
+
     const [card, setCard] = useState([])
-    const navigate=useNavigate()
+    const [qty, setQty] = useState(1)
+
+    const navigate = useNavigate()
+
+
+    // const getCards = async () => {
+    //     const token = localStorage.getItem('token');
+    //     axios.get('http://localhost:8000/api/get-cards').then(res => {
+    //         // console.log('Response from server:', res.data.cards)
+    //         if (res.data.success) {
+    //             // const cards = res.data.cards
+    //              if (!localStorage.getItem('token')) {
+    //         navigate('/login')
+    //     }
+    //             setCard(res.data.cards)
+    //             // const card = res.data.cards
+
+
+    //             console.log('Cards fetched successfully:', card)
+    //         }
+    //         else {
+    //             console.log('Failed to fetch cards:', res.data.message)
+    //         }
+    //     })
+    //         .catch(error => {
+    //             console.log('Error fetching cards:', error)
+    //             console.error('There was an error fetching the cards:', error.message)
+    //             // Show error message
+    //         })
+    // }
+
 
     const getCards = async () => {
-         axios.get('http://localhost:8000/api/get-cards').then(res => {
-            // console.log('Response from server:', res.data.cards)
-            if (res.data.success) {
-                // const cards = res.data.cards
-                setCard(res.data.cards)
-                // const card = res.data.cards
-                
+  const token = localStorage.getItem('token'); //  get token from localStorage
 
-                console.log('Cards fetched successfully:', card )
-            }
-            else {
-                console.log('Failed to fetch cards:', res.data.message)
-            }
-        })
-        .catch(error => {
-            console.error('There was an error fetching the cards:', error)
-            // Show error message
-        })
+  try {
+    const res = await axios.get('http://localhost:8000/api/get-cards', {
+      headers: {
+        Authorization: `Bearer ${token}` //  send it in headers
+      }
+    });
+
+    if (res.data.success) {
+      setCard(res.data.cards);
+      console.log('Cards fetched successfully:', res.data.cards);
+    } else {
+      console.log('Failed to fetch cards:', res.data.message);
     }
+  } catch (error) {
+if (error.response && error.response.status === 403) {
+    console.warn("Token expired. Logging out...");
+    localStorage.removeItem('token');
+    navigate('/login');
+  } else {
+    console.error('There was an error fetching the cards:', error);
+  }  }
+};
+
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) {
-            navigate('/login')
-        }
-
-        getCards();
        
+//  console.log("use effect")
+        getCards();
+
 
 
     }, [])
@@ -45,27 +85,28 @@ const Home = () => {
         <>
             <div className='p-4 m-2 '>
                 <h1 className='text-2xl font-bold text-center p-2'>Products</h1>
-
-                <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6  gap-2'>
-
+<div className='grid grid-cols-2 overflow-hidden sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1 sm:gap-2 '>
+{/* <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4"> */}
 
                     {
-                       
+
                         card.map((cards, index) => {
-                            // console.log(cards)
-
+                            // console.log("inside return")
                             return (
-                                <div className="card border m-2" key={index}>
+                                <div className="card border m-2 overflow-hidden active:scale-98 transition duration-150 " key={index}>
+    
 
-
-                                    <img className='card-image' src={cards.cardimage} alt="" />
+                                       
+                                    <img className='card-image ' src={cards.cardimage} alt="" /> 
                                     <div className='card-body font-bold'>
-                                        <h2 className='p-2 ml-3'>{ cards.cardname}</h2>
+                                         {/* p-3 font-bold flex flex-col flex-grow */}
+                                        <h2 className='p-name p-2 ml-3'>{cards.cardname}</h2>
+                                          {/* <h2 className="text-lg mb-2">{cards.cardname}</h2> */}
 
-                                        <div className='flex  items-center'>
-                                            <p className='p-2 ml-3'>Price: ${cards.price}</p>
+                                        <div className='flex  items-center '>
+                                            <p className='p-2 ml-3 text-sm'>Price: ${cards.price * qty}</p>
 
-                                            <select className=' border-gray-400 bg-gray-100 m-2' name="quantity" id="quantity">
+                                            <select className=' border-gray-400 bg-gray-100 m-2' name="quantity" id="quantity" value={qty} onChange={(e)=>setQty(e.target.value)}>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -77,8 +118,17 @@ const Home = () => {
                                         </div>
 
 
-                                        <button className=' button border text-center bg-black text-white p-2 ml-4 '>Buy Now</button>
+                                        <div className=' card-btn flex flex-row justify-around'>
+                                         {/* <div className="mt-auto flex flex-col sm:flex-row gap-2"> */}
+                                            <button className=' button border text-center bg-black text-white p-2 active:scale-95 transition duration-150 rounded shadow '>
+                                             {/* <button className="flex-1 bg-black text-white py-2 rounded active:scale-95 transition"> */}
+                                                
+                                                Buy Now</button>
+                                            <button className=' button border text-center bg-gray-300 text-black p-2 active:scale-95 transition duration-150 rounded shadow ' onClick={()=>addToCart(cards,qty)}>
 
+                                                Add To Card </button>
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -86,7 +136,7 @@ const Home = () => {
 
                             )
                         }
-                    )
+                        )
 
                     }
 

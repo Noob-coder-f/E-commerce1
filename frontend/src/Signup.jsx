@@ -6,15 +6,17 @@ const Signup = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [err, setErr] = useState('')
     const navigate=useNavigate()
 
     const handleSignup = (e) => {
         e.preventDefault()
         // Handle signup logic here
-        console.log('Signup details:', { name, email, password })
+        // console.log('Signup details:', { name, email, password })
 
         axios.post('http://localhost:8000/api/signup', { name, email, password })
         .then(response => {
+            // console.log('Response from server:', response)
             if(response.data.success){
 
                 console.log('Signup successful:', response.data)
@@ -25,6 +27,7 @@ const Signup = () => {
             else{
                 console.log('Signup failed:', response.data.message)
                 // Show error message
+                setErr(response.data.message)
             }
 
         }
@@ -49,6 +52,7 @@ const Signup = () => {
 
                     <input className='border border-gray-400 px-2' type='text' placeholder='enter your name'
                         name='name'
+                        required
                         value={name}
                         onChange={(e) => setName(e.target.value)} />
                 </div>
@@ -57,6 +61,7 @@ const Signup = () => {
                     <label htmlFor='email' className='font-bold '>Email</label>
 
                     <input className='border border-gray-400 px-2' type='email' placeholder='enter your email' name='email'
+                        required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
 
@@ -67,10 +72,11 @@ const Signup = () => {
                     <label htmlFor='password' className='font-bold '>Password</label>
 
                     <input className='border border-gray-400 px-2' type='password' placeholder='enter your password' name='password'
-
+                            required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} />
                 </div>
+                       {(password.length<6)? <p className='text-sm pl-2 text-red-500 font-light  '>{ err}</p>:''}
                 <div className="name flex flex-col justify-center items-center  top-3  p-2">
 
                     <button className='bg-blue-500 text-white px-10 m-2  rounded-md  hover:bg-blue-600'>Signup</button>
