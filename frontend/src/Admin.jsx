@@ -1,22 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { io } from 'socket.io-client';
 
 const Admin = () => {
 
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [image, setImage] = useState('')
+   const [notifications, setNotifications] = useState([]);
  const navigate= useNavigate()
 
   const handleAddCard = async() => {
+    const token=localStorage.getItem('token')
 
     await axios.post('http://localhost:8000/api/add-card', {
       cardname:name,
       price,
       cardimage:image 
-    }).then(response => {
+    }
+  , {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(response => {
       console.log('Response from server:', response.data)
       if(response.data.success){
         console.log('Card added successfully:', response.data)
@@ -28,16 +36,60 @@ const Admin = () => {
       }
     })
     .catch(error => {
-      console.error('There was an error adding the card:', error)
+      console.error('There was an error adding the card:', error.response ? error.response.data : error.message);
       // Show error message
+      alert(error.response.data.message || 'Failed to add card');
+      // console.log('alert',error.response.data.message)
     })
 
 
   }
+
+ useEffect(() => {
+  // ✅ Connect to backend socket server
+  const socket = io("http://localhost:8000", {
+    transports: ["websocket"],   // force websocket (avoids polling issues)
+    reconnection: true,          // auto reconnect if disconnected
+  });
+
+  // ✅ Tell backend this is an admin client
+  socket.emit("adminConnected");
+
+  // ✅ Listen for new orders
+  socket.on("newOrder", (data) => {
+    console.log("📦 New order received:", data);
+    setNotifications((prev) => [...prev, data]); // add new notification
+    console.log("Updated notifications:", [...notifications]);
+  });
+
+  // ✅ Cleanup when component unmounts
+  return () => {
+    socket.disconnect();
+  };
+}, []);
+
+
   return (
     <>
+    <div>
+      <h1>Admin Dashboard</h1>
+      <h2>📢 Notifications</h2>
+      <ul>
+        {notifications.map((order, index) => (
+          
+          <li key={index}>
+            
+            🛒 <b>{order.user}</b> placed an order ({order.orders.length} items {order.orders.map((item,idx)=>(
+              <p key={idx+1} className='ml-2'>{idx} ({item.cardname} - ${item.price})</p> 
+            ))} )
+          </li>
+          
+          
+        ))}
+      </ul>
+    </div>
 
-     <div className="card border m-2 "  style={{ height: '23rem' }}>
+      <div className="card border m-2 "  style={{ height: '23rem',width:'23rem' }}>
 
                         <img className='card-image' src="" alt="Choose card Image" /><input type="text" name='image' placeholder='enter image url' className='w-full p-1 bg-gray-200 rounded-xl text-center  ' 
                          onChange={(e)=>setImage(e.target.value)} />
@@ -67,7 +119,7 @@ const Admin = () => {
                             <button className=' button border text-center bg-black text-white p-2 ml-15 ' onClick={handleAddCard}>Add Card</button>
 
                         </div>
-                    </div>
+                    </div> 
       
     </>
   )

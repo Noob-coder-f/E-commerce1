@@ -1,5 +1,9 @@
 
 import express from 'express';
+
+import http from 'http';
+import { Server } from 'socket.io';   //it uses websocket protocol to send real time notification to admin
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -34,9 +38,49 @@ app.get('/',(req,res)=>{
 //connecting to database(mongodb)
 connectDB();
 
+
+const server = http.createServer(app); // create HTTP server
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173", // frontend URL
+
+    methods: ["GET", "POST"]
+  }
+});
+
+// store socket connections
+let adminSocket = null;
+
+io.on('connection', (socket) => {
+  console.log("⚡ A user connected:", socket.id);
+
+  // when admin connects
+ socket.on("adminConnected", () => {
+  adminSocket = socket;
+  socket.join("admins");   // ✅ make admin join "admins" room
+  console.log("✅ Admin connected:", socket.id);
+});
+
+  socket.on("disconnect", () => {
+    console.log("❌ User disconnected:", socket.id);
+    if (adminSocket?.id === socket.id) {
+      adminSocket = null;
+    }
+  });
+});
+app.set("io", io); // store io in app so routes can use it
+
+
+
+
+
+
+
 app.use('/api',userRoute);
 app.use('/api',adminRoute);
 
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)
 })
+
+export { io, adminSocket };

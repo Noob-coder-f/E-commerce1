@@ -36,14 +36,16 @@ array.reduce((accumulator, currentItem) => {
         // cartItems.length = 0; // Clear the cartItems array
 
       })
-        .catch(error => {
-          console.error('Error placing order:', error.response ? error.response.data : error.message);
-          // Handle error (e.g., show a notification)
-        });
+        // .catch(error => {
+        //   console.error('Error placing order:', error.response ? error.response.data : error.message);
+        //   // Handle error (e.g., show a notification)
+        // });
 
     } catch (error) {
       console.error('Error placing order:', error.Response ? error.response.data : error.message);
       // Handle error (e.g., show a notification)
+            alert( error.response.data.message || 'Failed to place order');
+
 
     }
 

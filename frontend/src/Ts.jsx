@@ -1,6 +1,6 @@
-  
 
-  // setterfunction (setCount etc) me callback function ki phli value previous state hoti h setCount((pre)=>console.log("pre state ",pre))
+
+// setterfunction (setCount etc) me callback function ki phli value previous state hoti h setCount((pre)=>console.log("pre state ",pre))
 
 // // class component render method is equal to the useEffect with no dependency array;
 // // useEffect empty dependency array == componentDidMount
@@ -54,7 +54,7 @@
 //             // console.log('before use Effect')
 //             // useEffect(()=>{
 //             //     console.log("useEffect called")
-                
+
 //             // },[])
 
 
@@ -102,7 +102,7 @@
 
 
 
-            // class component
+// class component
 
 //     import React, { Component } from 'react';
 //     import Ts2 from './Ts2'
@@ -150,8 +150,8 @@
 // export default Counter;
 
 
-    // Lazy loadind
-
+// Lazy loadind
+/*
     import React, { Suspense } from "react";
     const Ts2= React.lazy(()=> import ('./Ts2')) //importing component lazily
 
@@ -167,3 +167,32 @@
     }
 
     export default Ts;
+    */
+
+
+import React, { useCallback, useState } from 'react'
+import Ts2 from './Ts2'
+
+const Ts = () => {
+    const [count, setCount] = useState(0)
+
+    // const fun=()=>{
+    //     console.log("fun called")
+    // }
+    const fun=useCallback(()=>{
+        console.log("fun called")
+    },[])
+    return (
+        <>
+            {/* <Ts2 name='faishal' />     jb props me normal data bhejte h to memo chalta h jb props ki value change hogi tbhi memo component ko render krega  */}
+             {/* <Ts2 name={fun} />  lekin jb function ya object ko props me bhejte h to memo component re render hota h kyuki function reference
+                                    (function ke andr referenceial equality hoti h jo render hone pr change hoti rhti h means fun phir se create hota h aur memory bdlti h)
+                                     change ho jata h isliye useCallback ka use krte h */}
+              <Ts2 name={fun} /> 
+            <h1>Count:{count}</h1>
+            <button onClick={() => setCount(count + 1)}>increase</button>
+        </>
+    )
+}
+export default Ts
+

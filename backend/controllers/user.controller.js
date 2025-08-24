@@ -3,7 +3,7 @@ import User from '../model/user.model.js';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 import Userorder from '../model/userOrder.model.js';
-
+import { adminSocket } from '../index.js';
 
 
 
@@ -37,7 +37,7 @@ export const signup = async (req, res) => {
 
         // Generate JWT token
         // Note: Ensure you have set JWT_SECRET and JWT_EXPIRES_IN in your .env file
-        const token = jwt.sign({ id: createUser._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+        const token = jwt.sign({ id: createUser._id , role: createUser.role }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
         res.status(200).json({ success: true, message: "user created succesfully.", token })
     }
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+        const token = jwt.sign({ id: user._id , role: user.role }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
         res.status(200).json({ success: true, message: "login successfull baackend", token, user: { id: user._id, name: user.name, email: user.email } })
 
@@ -123,6 +123,17 @@ export const placeOrder = async (req, res) => {
             userorder.orders.push(...cartItems);
         }   
         await userorder.save();
+      
+      // get io instance
+    const io = req.app.get("io");
+
+    // notify all admins in the "admins" room
+    io.to("admins").emit("newOrder", {
+      user: user.name,
+      email: user.email,
+      orders: cartItems, // Use cartItems here
+    });
+        
         res.status(201).json({ success: true, message: "Order placed successfully", order: userorder });   
         
     } catch (error) {

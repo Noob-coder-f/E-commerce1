@@ -41,8 +41,7 @@ const MyOrder = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-2 mt-4 ">
 
               {order.orders.map((item, idx) => (
-                <div>
-                  {/* <p><strong>Date:</strong> {new Date(item.createdAt).toLocaleString()}</p> */}
+                
 
                   <div key={idx} className="card border rounded p-3 shadow-lg">
                     <img className="w-full h-40 object-cover rounded" src={item.cardimage} alt={item.cardname} />
@@ -52,7 +51,7 @@ const MyOrder = () => {
                     <p><strong>Date:</strong> {new Date(item.createdAt).toLocaleString()}</p>
 
                   </div>
-                </div>
+              
               ))}
             </div>
           </div>
