@@ -94,8 +94,6 @@ if (error.response && error.response.status === 403) {
                             // console.log("inside return")
                             return (
                                 <div className="card border m-2 overflow-hidden active:scale-98 transition duration-150 " key={index}>
-    
-
                                        
                                     <img className='card-image ' src={cards.cardimage} alt="" /> 
                                     <div className='card-body font-bold'>

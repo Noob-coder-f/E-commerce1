@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from './context/CartContext'
@@ -77,4 +77,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default memo(Navbar)

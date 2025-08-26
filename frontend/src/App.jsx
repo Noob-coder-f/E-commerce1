@@ -6,7 +6,6 @@ import Home from './Home'
 import Ts from './Ts'
 import Navbar from './Navbar'
 import Admin from './Admin'
-import  {CartProvider}  from './context/CartContext'
 import Cart from './Cart'
 import MyOrder from './MyOrder'
 

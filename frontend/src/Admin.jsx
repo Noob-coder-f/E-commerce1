@@ -9,6 +9,7 @@ const Admin = () => {
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [image, setImage] = useState('')
+  const [user, setUser] = useState([])
    const [notifications, setNotifications] = useState([]);
  const navigate= useNavigate()
 
@@ -45,7 +46,36 @@ const Admin = () => {
 
   }
 
+  const getUsers=async()=>{
+    try {
+      const token=localStorage.getItem('token')
+ await  axios.get('http://localhost:8000/api/users',{
+  
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+ }).then((resp)=>{
+  console.log("getting user",resp.data.users)
+  setUser(()=>resp.data.users)
+ })
+  
+} catch (error) {
+
+  
+}
+  }
+
  useEffect(() => {
+
+
+
+getUsers()
+
+
+
+
+
+
   // ✅ Connect to backend socket server
   const socket = io("http://localhost:8000", {
     transports: ["websocket"],   // force websocket (avoids polling issues)
@@ -69,6 +99,7 @@ const Admin = () => {
 }, []);
 
 
+
   return (
     <>
     <div>
@@ -80,7 +111,7 @@ const Admin = () => {
           <li key={index}>
             
             🛒 <b>{order.user}</b> placed an order ({order.orders.length} items {order.orders.map((item,idx)=>(
-              <p key={idx+1} className='ml-2'>{idx} ({item.cardname} - ${item.price})</p> 
+              <p key={idx} className='ml-2'>{idx+1} ({item.cardname} - ${item.price})</p> 
             ))} )
           </li>
           
@@ -120,6 +151,33 @@ const Admin = () => {
 
                         </div>
                     </div> 
+
+
+                  {/* //getting usesrs */}
+                  <table className=' table border p-2 w-100'>
+                    <thead>
+                      <tr>
+                      <th>Name</th>
+                      <th>Email</th> 
+                      <th>role</th>
+                      </tr>
+                    </thead>
+                    
+                      {
+                        user.map((data,idx)=>(
+                          <tbody>
+                          <tr className=' border p-2 w-full'>
+                            <td className='p-5'>{data.name} </td>
+                            <td>{data.email} </td>
+                            <td>{data.role} </td>
+                          
+                          </tr>
+                         
+                          </tbody>
+                        ))
+                      }
+                    
+                  </table>
       
     </>
   )

@@ -23,6 +23,8 @@ const Login = () => {
                     // Save token or user data if needed
                     // console.log('Token:', Response.data.token)
                     localStorage.setItem('token', Response.data.token)
+                   localStorage.setItem("user", JSON.stringify( Response.data.user));
+                    console.log('User:', Response.data.user)
 
                     // Redirect or show success message
                     navigate('/home')

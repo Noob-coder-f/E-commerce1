@@ -13,6 +13,8 @@ import cors from 'cors';
 import userRoute from './routes/user.route.js';
 import connectDB from './config/db.js';
 import adminRoute from './routes/admin.route.js';
+
+// import razorpayRoutes from './routes/razorpay.route.js';
 // import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -48,6 +50,8 @@ const io = new Server(server, {
   }
 });
 
+
+
 // store socket connections
 let adminSocket = null;
 
@@ -68,16 +72,16 @@ io.on('connection', (socket) => {
     }
   });
 });
+
+
+
 app.set("io", io); // store io in app so routes can use it
-
-
-
-
-
 
 
 app.use('/api',userRoute);
 app.use('/api',adminRoute);
+
+// app.use('/api/payments/razorpay', razorpayRoutes); // ✅ Razorpay routes
 
 server.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)

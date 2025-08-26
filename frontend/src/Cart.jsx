@@ -19,6 +19,7 @@ array.reduce((accumulator, currentItem) => {
   const totalprice = cartItems.reduce((acc, item) => {
     return acc + (item.price * item.qty)
   }, 0);
+
   const handleorder = async () => {
     const token = localStorage.getItem('token');
     console.log('cartItems', cartItems);
@@ -50,6 +51,80 @@ array.reduce((accumulator, currentItem) => {
     }
 
   }
+
+// const handleorder = async () => {
+//   const token = localStorage.getItem("token");
+//   const user = JSON.parse(localStorage.getItem("user")); // ✅ fixed
+//   console.log('user from localStorage:', user);
+
+//   try {
+//     // 🔹 Calculate total amount (in paise)
+//     const totalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) * 100; 
+//     // 1️⃣ Create order
+//     const { data } = await axios.post(
+//       "http://localhost:8000/api/payments/razorpay/create-order", // ✅ fixed port
+//       { cartItems, userId: user._id },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       }
+//     );
+
+//     if (!data.success) {
+//       alert("Error creating order");
+//       return;
+//     }
+
+//     // 2️⃣ Open Razorpay popup
+//     const options = {
+//       key: data.keyId,
+//       amount: data.amount,
+//       currency: data.currency,
+//       name: "My Store",
+//       description: "Order Payment",
+//       order_id: data.orderId,
+//       handler: async function (response) {
+//         // 3️⃣ Verify payment
+//         const verifyRes = await axios.post(
+//           "http://localhost:8000/api/payments/razorpay/verify", // ✅ fixed port
+//           {
+//             ...response,
+//             cartItems,
+//             userId: user._id,
+//           },
+//           {
+//             headers: {
+//               Authorization: `Bearer ${token}`,
+//             },
+//           }
+//         );
+
+//         if (verifyRes.data.success) {
+//           alert("Payment Successful & Order Saved 🎉");
+//           clearCart();
+//         } else {
+//           alert("Payment verification failed ❌");
+//         }
+//       },
+//       prefill: {
+//         name: user.name,
+//         email: user.email,
+//       },
+//       theme: {
+//         color: "#3399cc",
+//       },
+//     };
+
+//     const rzp1 = new window.Razorpay(options);
+//     rzp1.open();
+//   } catch (error) {
+//     console.error("Error in payment:", error.response ? error.response.data : error.message);
+//     alert("Payment failed. Try again.");
+//   }
+// };
+
+
 
 
   return (
