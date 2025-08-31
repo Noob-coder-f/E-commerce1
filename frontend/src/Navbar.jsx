@@ -25,7 +25,7 @@ const Navbar = () => {
         <h4 className='text-xl w-full'>E-Commerce</h4>
 {/* Hamburger button (mobile only) */}
 <button
-  className="sm:hidden text-2xl relative left-6 pl-24"
+  className="sm:hidden text-2xl relative left-5 pl-22"
   onClick={() => setMenuOpen(!menuOpen)}
 >
   {menuOpen?'X':"☰"}

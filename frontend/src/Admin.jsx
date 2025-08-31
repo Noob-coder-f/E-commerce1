@@ -10,6 +10,7 @@ const Admin = () => {
   const [price, setPrice] = useState('')
   const [image, setImage] = useState('')
   const [user, setUser] = useState([])
+  const [Loading, setLoading] = useState(true)
    const [notifications, setNotifications] = useState([]);
  const navigate= useNavigate()
 
@@ -57,6 +58,7 @@ const Admin = () => {
  }).then((resp)=>{
   console.log("getting user",resp.data.users)
   setUser(()=>resp.data.users)
+  setLoading(false)
  })
   
 } catch (error) {
@@ -70,10 +72,6 @@ const Admin = () => {
 
 
 getUsers()
-
-
-
-
 
 
   // ✅ Connect to backend socket server
@@ -122,7 +120,7 @@ getUsers()
 
       <div className="card border m-2 "  style={{ height: '23rem',width:'23rem' }}>
 
-                        <img className='card-image' src="" alt="Choose card Image" /><input type="text" name='image' placeholder='enter image url' className='w-full p-1 bg-gray-200 rounded-xl text-center  ' 
+                        <img className='card-image'   alt="Choose card Image" /><input type="text" name='image' placeholder='enter image url' className='w-full p-1 bg-gray-200 rounded-xl text-center  ' 
                          onChange={(e)=>setImage(e.target.value)} />
 
                         <div className='card-body font-bold'>
@@ -154,7 +152,8 @@ getUsers()
 
 
                   {/* //getting usesrs */}
-                  <table className=' table border p-2 w-100'>
+                  {Loading ? <h1>Loading...Please Wait...</h1> : user.length === 0 ? <h1>No users found</h1> :
+                  <table className=' table border p-2 m-5  ' cellPadding={10} >
                     <thead>
                       <tr>
                       <th>Name</th>
@@ -163,21 +162,24 @@ getUsers()
                       </tr>
                     </thead>
                     
+                    <tbody>
                       {
-                        user.map((data,idx)=>(
-                          <tbody>
-                          <tr className=' border p-2 w-full'>
-                            <td className='p-5'>{data.name} </td>
-                            <td>{data.email} </td>
-                            <td>{data.role} </td>
+                        user.map((data,idx)=> (
+
+                          <tr key={idx} className=' '>
+                            <td className='border p-5'>{data.name} </td>
+                            <td className='border p-5'>{data.email} </td>
+                            <td className='border p-5'>{data.role} </td>
                           
                           </tr>
                          
-                          </tbody>
                         ))
                       }
+
+                      </tbody>
                     
                   </table>
+                  }
       
     </>
   )

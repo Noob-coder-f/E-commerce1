@@ -15,6 +15,7 @@ const MyOrder = () => {
       });
 
       console.log('User orders fetched successfully:', response.data);
+    
       setOrderData(response.data.orders);  // Array of user order objects
     } catch (error) {
       console.error('Error fetching user orders:', error.response ? error.response.data : error.message);
@@ -40,7 +41,7 @@ const MyOrder = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-2 mt-4 ">
 
-              {order.orders.map((item, idx) => (
+              {(order.orders.reverse()).map((item, idx) => (  //reverse the array so that latest order shown on first
                 
 
                   <div key={idx} className="card border rounded p-3 shadow-lg">
