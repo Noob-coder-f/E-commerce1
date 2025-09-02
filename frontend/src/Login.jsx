@@ -24,6 +24,7 @@ const Login = () => {
                     // console.log('Token:', Response.data.token)
                     localStorage.setItem('token', Response.data.token)
                    localStorage.setItem("user", JSON.stringify( Response.data.user));
+                   localStorage.setItem("role",  Response.data.user.role);
                     console.log('User:', Response.data.user)
 
                     // Redirect or show success message

@@ -2,10 +2,12 @@ import React, { memo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from './context/CartContext'
+import { useEffect } from 'react'
 
 const Navbar = () => {
   const navigate = useNavigate()
    const [menuOpen, setMenuOpen] = useState(false);
+   const [role, setRole] = useState('')
 
   // const cartLength = useCart().cartItems.length
   const { cartItems } = useCart();
@@ -13,11 +15,20 @@ const Navbar = () => {
   // console.log('cartLength', cartLength)
 
   console.log('navbar')
+    console.log('nabar user role',  role)
+
+ 
+
+
   const logout = () => {
     localStorage.removeItem('token')
     navigate('/login')
 
   }
+   useEffect(()=>{
+    setRole(  localStorage.getItem('role'))
+  console.log('nabar user role',  role)
+   },[])
   return (
     <>
 
@@ -59,7 +70,12 @@ const Navbar = () => {
                 } </Link>
                 </li>
 
-                <li className='' ><Link to='/admin'> Admin </Link></li>
+                {/* <li className={` ${role.includes('admin')?'block':'hidden'}`} ><Link to='/admin'> Admin </Link></li> */}
+
+                {
+                  role ==='admin' && ( <li className={''} ><Link to='/admin'> Admin </Link></li> )
+                }
+
                 <li className='' onClick={logout}>Logout</li>
               </>
               :
