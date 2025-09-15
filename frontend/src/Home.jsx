@@ -21,7 +21,7 @@ const Home = () => {
 
     // const getCards = async () => {
     //     const token = localStorage.getItem('token');
-    //     axios.get('http://localhost:8000/api/get-cards').then(res => {
+    //     axios.get('${import.meta.env.VITE_API_URL}api/get-cards').then(res => {
     //         // console.log('Response from server:', res.data.cards)
     //         if (res.data.success) {
     //             // const cards = res.data.cards
@@ -50,7 +50,7 @@ const Home = () => {
         const token = localStorage.getItem('token'); //  get token from localStorage
 
         try {
-            const res = await axios.get('http://localhost:8000/api/get-cards', {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}api/get-cards`, {
                 headers: {
                     Authorization: `Bearer ${token}` //  send it in headers
                 }
@@ -105,7 +105,7 @@ const Home = () => {
 
         const token = localStorage.getItem('token');
         try {
-            await axios.post('http://localhost:8000/api/order', orderItem, {
+            await axios.post(`${import.meta.env.VITE_API_URL}api/order`, orderItem, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

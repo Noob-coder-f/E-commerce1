@@ -17,7 +17,7 @@ const Admin = () => {
   const handleAddCard = async() => {
     const token=localStorage.getItem('token')
 
-    await axios.post('http://localhost:8000/api/add-card', {
+    await axios.post(`${import.meta.env.VITE_API_URL}api/add-card`, {
       cardname:name,
       price,
       cardimage:image 
@@ -50,7 +50,7 @@ const Admin = () => {
   const getUsers=async()=>{
     try {
       const token=localStorage.getItem('token')
- await  axios.get('http://localhost:8000/api/users',{
+ await  axios.get(`${import.meta.env.VITE_API_URL}api/users`,{
   
     headers: {
       Authorization: `Bearer ${token}`

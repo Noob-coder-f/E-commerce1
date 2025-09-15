@@ -14,7 +14,7 @@ const Login = () => {
 
         // console.log('Login details:', { email, password })
         // Add axios call to login if needed
-        axios.post('http://localhost:8000/api/login', { email, password })
+        axios.post(`${import.meta.env.VITE_API_URL}api/login`, { email, password })
             .then(Response => {
                 // console.log('Login successful:', Response.data)
 

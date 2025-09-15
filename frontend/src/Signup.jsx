@@ -14,7 +14,7 @@ const Signup = () => {
         // Handle signup logic here
         // console.log('Signup details:', { name, email, password })
 
-        axios.post('http://localhost:8000/api/signup', { name, email, password })
+        axios.post(`${import.meta.env.VITE_API_URL}api/signup`, { name, email, password })
         .then(response => {
             // console.log('Response from server:', response)
             if(response.data.success){
