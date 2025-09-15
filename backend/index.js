@@ -22,7 +22,8 @@ const app = express();
 app.use(express.json()); // Middleware to parse JSON bodies
 // app.use(cors()); // Middleware to enable CORS
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  origin:[ process.env.CLIENT_URL || "http://localhost:5173",
+  "https://e-commerce1-ecm8rzy0p-mohd-faaishals-projects.vercel.app"],
   credentials: true
 }));
 
