@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Login from './Login'
 import Signup from './Signup'
 import Home from './Home'
-import Ts from './Ts'
 import Navbar from './Navbar'
 import Admin from './Admin'
 import Cart from './Cart'
@@ -17,7 +16,6 @@ const App = () => {
           <Navbar />
           <Routes>
 
-            {/* <Route path='/' element={< Ts />} /> */}
             <Route path='/' element={< Home />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/login' element={<Login />} />

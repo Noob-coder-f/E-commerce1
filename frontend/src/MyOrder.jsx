@@ -8,7 +8,7 @@ const MyOrder = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.get('http://localhost:8000/api/userorders', {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}api/userorders`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
