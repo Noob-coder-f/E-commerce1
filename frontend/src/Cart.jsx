@@ -24,7 +24,7 @@ array.reduce((accumulator, currentItem) => {
     const token = localStorage.getItem('token');
     console.log('cartItems in cart', cartItems);
     try {
-      await axios.post('http://localhost:8000/api/order', cartItems, {
+      await axios.post(`${import.meta.env.VITE_API_URL}api/order`, cartItems, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -62,7 +62,7 @@ array.reduce((accumulator, currentItem) => {
 //     const totalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) * 100; 
 //     // 1️⃣ Create order
 //     const { data } = await axios.post(
-//       "http://localhost:8000/api/payments/razorpay/create-order", // ✅ fixed port
+//       "${import.meta.env.VITE_API_URL}api/payments/razorpay/create-order", // ✅ fixed port
 //       { cartItems, userId: user._id },
 //       {
 //         headers: {
@@ -87,7 +87,7 @@ array.reduce((accumulator, currentItem) => {
 //       handler: async function (response) {
 //         // 3️⃣ Verify payment
 //         const verifyRes = await axios.post(
-//           "http://localhost:8000/api/payments/razorpay/verify", // ✅ fixed port
+//           "${import.meta.env.VITE_API_URL}api/payments/razorpay/verify", // ✅ fixed port
 //           {
 //             ...response,
 //             cartItems,
