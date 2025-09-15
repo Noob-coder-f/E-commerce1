@@ -1,45 +1,6 @@
-// import { Children, createContext,  useContext, useState } from "react";
-
-// const cartContext=createContext();
-
-// export const CartProvider=({Children})=>{
-//     const [cartItem, setCartItem] = useState([]);
-
-//     const addToCart=(item ,qty)=>{
-
-//         const existingItem=cartItem.find(item=> item._id=== item._id);
-//         if(existingItem){
-//             // Update quantity if product already in cart
-//             setCartItem( prev=> prev.map(i=>i._id=== item._id ?{...i,qty:Number(qty) }:i));
-
-//         } else{
-//             setCartItem(prev=>[...prev,{...item,qty:Number(qty)}]);
-
-//         }
-//     }
-
-// // This removes an item using its _id:
-// const removeFromCart = (id) => {
-//   setCartItem(prev => prev.filter(i => i._id !== id));
-// };
-
-// return(
-//     <cartContext.Provider value={{ cartItem, addToCart, removeFromCart }}>
-//       {Children}
-//     </cartContext.Provider>
-
-// )
-
-// };
-// export const useCart=()=>useContext(cartContext);
 
 
-
-
-
-
-
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, use } from 'react';
 
 const CartContext = createContext();
 
@@ -61,17 +22,29 @@ export function CartProvider  ({ children })  {
     If we did this inside the component body instead, it would run every time the component re-renders — which we don’t want
     
     */
+   const userid= localStorage.getItem('userId')
+   console.log('userid in cart context', userid);
+   
     const [cartItems, setCartItems] = useState(() => {
-        const savedCart = localStorage.getItem('cartItems');
+        if(!userid){
+            return [];
+        }
+        const savedCart = localStorage.getItem(`cartItems_${userid}`);
         return savedCart ? JSON.parse(savedCart) : [];
     });
 
      useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [cartItems]);
+        if(userid){
+    localStorage.setItem(`cartItems_${userid}`, JSON.stringify(cartItems));
+        }
+  }, [cartItems,userid]);
 
 
     const addToCart = (item, qty) => {
+    //    const user=localStorage.getItem('userId')
+    //                console.log('user details in add to cart',user);
+
+
         const existing = cartItems.find(i => i._id === item._id);
 
         if (existing) {
@@ -82,6 +55,7 @@ export function CartProvider  ({ children })  {
             );
         } else {
             setCartItems(prev => [...prev, { ...item, qty: Number(qty) }]);
+            
         }
     };
 

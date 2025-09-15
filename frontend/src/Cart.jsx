@@ -22,7 +22,7 @@ array.reduce((accumulator, currentItem) => {
 
   const handleorder = async () => {
     const token = localStorage.getItem('token');
-    console.log('cartItems', cartItems);
+    console.log('cartItems in cart', cartItems);
     try {
       await axios.post('http://localhost:8000/api/order', cartItems, {
         headers: {

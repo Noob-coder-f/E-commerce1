@@ -2,7 +2,6 @@ import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import Contact from './Contact'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from './context/CartContext'
 
@@ -15,6 +14,7 @@ const Home = () => {
     const [card, setCard] = useState([])
     const [qty, setQty] = useState({})
     const [filterMenu, setFilterMenu] = useState(false)
+    const [orderItem, setOrderItem] = useState([])
 
     const navigate = useNavigate()
 
@@ -93,6 +93,46 @@ const Home = () => {
 
     }, [])
 
+
+    //handle order after clicking on buy now
+    const handleorder = async (cards, qty) => {
+
+        const confirm = window.confirm("Are you sure you want to place the order?");
+        if (!confirm) {
+            return;
+        }
+        setOrderItem(orderItem.push({ ...cards, qty: Number(qty) }))
+
+        const token = localStorage.getItem('token');
+        try {
+            await axios.post('http://localhost:8000/api/order', orderItem, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+
+            }).then(response => {
+                console.log('Order placed successfully:', response.data);
+                alert('Order placed successfully');
+                // clearCart(); // Clear the cart after placing the order
+                // Optionally, you can clear the cart after placing the order
+                // cartItems.length = 0; // Clear the cartItems array
+
+            })
+            // .catch(error => {
+            //   console.error('Error placing order:', error.response ? error.response.data : error.message);
+            //   // Handle error (e.g., show a notification)
+            // });
+
+        } catch (error) {
+            console.error('Error placing order:', error.Response ? error.response.data : error.message);
+            // Handle error (e.g., show a notification)
+            // alert( error.response.data.message || 'Failed to place order');
+
+
+        }
+
+    }
+
     const handleQtyChange = (id, value) => {
         setQty(prev => ({ ...prev, [id]: Number(value) }))
     }
@@ -112,24 +152,24 @@ const Home = () => {
     }
     //filter function
     const handleFilter = (e) => {
-        let  checkValue =0;
-        if(e.target.checked===true){
-          checkValue= e.target.value;
-        console.log(checkValue);
-       
+        let checkValue = 0;
+        if (e.target.checked === true) {
+            checkValue = e.target.value;
+            console.log(checkValue);
+
         }
-        console.log('before 2nd if',checkValue);
+        console.log('before 2nd if', checkValue);
 
         if (checkValue === 0) {
-            console.log('inside 2nd if',checkValue);
+            console.log('inside 2nd if', checkValue);
             getCards();
             return;
-        }else{
-            console.log('inside else',checkValue);
-             const filterCard = card.filter(item=> item.price <= checkValue && item.price > checkValue-200);
-        setCard(filterCard);
+        } else {
+            console.log('inside else', checkValue);
+            const filterCard = card.filter(item => item.price <= checkValue && item.price > checkValue - 200);
+            setCard(filterCard);
         }
-       
+
 
     }
     return (
@@ -150,7 +190,7 @@ const Home = () => {
                     </div>
                     {/* Filter button */}
                     <button className=' border border-gray-400 w-20 p-2 text-xl font-semibold active:scale-95 transition duration-150 mr-5 ' id='filter-btn'
-                        onClick={()=>setFilterMenu(!filterMenu)}>Filter</button>
+                        onClick={() => setFilterMenu(!filterMenu)}>Filter</button>
 
                     {/* filter side baar */}
 
@@ -159,11 +199,11 @@ const Home = () => {
                         <div className='border '>
 
                             <div className='flex items-center p-1 mb-1 '>
-                                <input type="checkbox" name='filter' className='mr-2' value={600} onChange={handleFilter}/>
+                                <input type="checkbox" name='filter' className='mr-2' value={600} onChange={handleFilter} />
                                 <label  >400 -600</label>
                             </div>
                             <div className='flex items-center p-1 mb-1'>
-                                <input type="checkbox" name='filter' className='mr-2' value={800} onChange={handleFilter}/>
+                                <input type="checkbox" name='filter' className='mr-2' value={800} onChange={handleFilter} />
                                 <label onClick={handleFilter} >600 -800</label>
                             </div>
                             <div className='flex items-center p-1 mb-1'>
@@ -198,8 +238,8 @@ const Home = () => {
                                         <div className='flex  items-center '>
                                             <p className='p-2 ml-3 text-sm'>Price: ${cards.price * (qty[cards._id] || 1)}</p>
 
-                                            <select className=' border-gray-400 bg-gray-100 m-2' name="quantity" id="quantity" 
-                                            value={qty[cards._id] || 1} onChange={(e) => handleQtyChange(cards._id, e.target.value)}>
+                                            <select className=' border-gray-400 bg-gray-100 m-2' name="quantity" id="quantity"
+                                                value={qty[cards._id] || 1} onChange={(e) => handleQtyChange(cards._id, e.target.value)}>
                                                 {
                                                     [...Array(7)].map((_, i) => (
 
@@ -212,12 +252,11 @@ const Home = () => {
 
                                         <div className=' card-btn flex flex-row p-1 justify-around'>
                                             {/* <div className="mt-auto flex flex-col sm:flex-row gap-2"> */}
-                                            <button className=' button border text-center bg-black text-white p-2 active:scale-95 transition duration-150 rounded shadow '>
-                                                {/* <button className="flex-1 bg-black text-white py-2 rounded active:scale-95 transition"> */}
-
+                                            <button className=' button border text-center bg-black text-white p-2 active:scale-95 transition duration-150 rounded shadow '
+                                                onClick={() => handleorder(cards, qty[cards._id] || 1)}>
                                                 Buy Now</button>
-                                            <button className=' button border text-center bg-gray-300 text-black p-2 active:scale-95 transition duration-150 rounded shadow ' 
-                                            onClick={() => addToCart(cards, qty[cards._id] || 1)} >
+                                            <button className=' button border text-center bg-gray-300 text-black p-2 active:scale-95 transition duration-150 rounded shadow '
+                                                onClick={() => addToCart(cards, qty[cards._id] || 1)} >
 
                                                 Add To Card </button>
 

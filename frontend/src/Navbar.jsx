@@ -22,6 +22,7 @@ const Navbar = () => {
 
   const logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('cartItems')
     navigate('/login')
 
   }

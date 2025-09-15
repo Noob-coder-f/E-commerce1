@@ -29,5 +29,6 @@ dist-ssr
 node_modules/
 build/
 
-Ts.jsx
+# Ts.jsx
 Ts2.jsx
+Ts.jsx
