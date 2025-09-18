@@ -14,18 +14,32 @@ import userRoute from './routes/user.route.js';
 import connectDB from './config/db.js';
 import adminRoute from './routes/admin.route.js';
 
+import razorpay from 'razorpay';
+import paymentLink from './routes/payment.route.js';
+
 // import razorpayRoutes from './routes/razorpay.route.js';
 // import cookieParser from 'cookie-parser';
 
 const app = express();
 
 app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
 // app.use(cors()); // Middleware to enable CORS
 app.use(cors({
   origin:[ process.env.CLIENT_URL || "http://localhost:5173",
   "https://e-commerce1-faishal.vercel.app"],
   credentials: true
 }));
+
+
+//Razorpay instance
+
+export const razorpayInstance=new razorpay({
+  key_id:process.env.RAZORPAY_KEY_ID,
+  key_secret:process.env.RAZORPAY_KEY_SECRET
+})
+
+app.use('/api',paymentLink)
 
 
 // app.use(cookieParser()); // Middleware to parse cookies

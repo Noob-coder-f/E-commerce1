@@ -227,7 +227,7 @@ const Home = () => {
                         card.map((cards) => {
                             // console.log("inside return")
                             return (
-                                <div className="card border m-2 overflow-hidden active:scale-98 transition duration-150 " key={cards._id}>
+                                <div className="card  m-2 overflow-hidden active:scale-98 transition duration-150 " key={cards._id}>
 
                                     <img className='card-image ' src={cards.cardimage} alt="" />
                                     <div className='card-body font-bold'>
