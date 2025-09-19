@@ -101,7 +101,7 @@ const Home = () => {
         <div className="absolute top-[15rem] sm:top-[17rem] md:top-[9.5rem] right-4 z-50">
           <div className="w-64 bg-white shadow-xl p-4 rounded-lg animate-slideIn">
 
-            <button className='fixed top-[9rem] right-7 text-2xl' onClick={() => {  setFilterMenu(false) }}
+            <button className='fixed top-[9.5rem] right-7 text-center text-2xl w-7 h-8  rounded-b-2xl bg-gray-50 ' onClick={() => {  setFilterMenu(false) }}
             >x</button>
 
             <h2 className="text-lg font-bold mb-4 text-slate-800">Filter by Price</h2>
