@@ -42,49 +42,54 @@ const Signup = () => {
     }
 
 
-    return (
-        <div className='container border-2 border-black flex justify-center items-center h-screen w-screen'>
-            <form onSubmit={handleSignup} className='flex flex-col justify-center  border border-red-600 h-80 absolute top-10 '>
-                <h1 className='text-3xl text-center p-2 underline'>Signup</h1>
-
-                <div className="name flex justify-between gap-2  p-2">
-                    <label htmlFor='name' className='font-bold '>Username</label>
-
-                    <input className='border border-gray-400 px-2' type='text' placeholder='enter your name'
-                        name='name'
-                        required
-                        value={name}
-                        onChange={(e) => setName(e.target.value)} />
-                </div>
-
-                <div className="name flex justify-between gap-2   p-2">
-                    <label htmlFor='email' className='font-bold '>Email</label>
-
-                    <input className='border border-gray-400 px-2' type='email' placeholder='enter your email' name='email'
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-
-                    />
-                </div>
-
-                <div className="name flex justify-between gap-2   p-2">
-                    <label htmlFor='password' className='font-bold '>Password</label>
-
-                    <input className='border border-gray-400 px-2' type='password' placeholder='enter your password' name='password'
-                            required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                       {(password.length<6)? <p className='text-sm pl-2 text-red-500 font-light  '>{ err}</p>:''}
-                <div className="name flex flex-col justify-center items-center  top-3  p-2">
-
-                    <button className='bg-blue-500 text-white px-10 m-2  rounded-md  hover:bg-blue-600'>Signup</button>
-                    <p>Already a user <Link to='/login' className='underline text-blue-400 text-center'> Login here</Link></p>
-                </div>
-            </form>
-        </div>
-    )
+   return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8">
+        <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+        <form onSubmit={handleSignup} className="space-y-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition duration-200"
+          >
+            Sign Up
+          </button>
+        </form>
+        <p className="text-sm text-center mt-4">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-600 hover:underline">
+            Login
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export default Signup

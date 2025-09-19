@@ -8,6 +8,7 @@ import Admin from './Admin'
 import Cart from './Cart'
 import MyOrder from './MyOrder'
 import PaymentSuccess from './PaymentSuccess'
+import Footer from './Footer'
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
 
 
           </Routes>
+          <Footer />
         </Router>
 
       

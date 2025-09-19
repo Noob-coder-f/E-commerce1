@@ -55,40 +55,45 @@ const Login = () => {
 
             })
     }
-    return (
-        <div className='container p-5  flex flex-col  justify-center items-center h-full w-full'>
-            <div className=' h-90 flex flex-col gap-8 items-center bg-sky-200    shadow-md space-y-3 rounded-md p-5 w-96'>
-                <h1 className='text-3xl text-center p-2 underline'>Login</h1>
-                <form onSubmit={handleLogin} className='flex flex-col justify-center    w-full shadow-md'>
-
-
-
-                    <div className="name flex justify-between gap-2   p-2">
-                        <label htmlFor='email' className='font-bold  '>Email</label>
-
-                        <input className=' bg-white rounded-md px-2 shadow-md' type='email' placeholder='enter your email' name='email'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-
-                    <div className="name flex justify-between gap-2   p-2">
-                        <label htmlFor='password' className='font-bold '>Password</label>
-
-                        <input className=' px-2 bg-white rounded-md' type='password' placeholder='enter your password' name='password'
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-                    <div className="name flex flex-col justify-center items-center  top-3  p-2">
-
-                        <button className='bg-blue-500 text-white px-10 m-2 shadow-md rounded-md  hover:bg-blue-600'>Login</button>
-                        <p>New user <Link to='/signup' className='underline  text-blue-500 text-center'> register here</Link></p>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-
-    )
+   return (
+    <div className="flex justify-center items-center min-h-150 overflow-hidden bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8">
+        <h2 className="text-2xl font-bold text-center mb-6">Welcome Back</h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition duration-200"
+          >
+            Login
+          </button>
+        </form>
+        <p className="text-sm text-center mt-4">
+          Don’t have an account?{" "}
+          <Link to="/signup" className="text-blue-600 hover:underline">
+            Sign up
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export default Login

@@ -6,17 +6,11 @@ const MyOrder = () => {
 
   const fetchUserOrders = async () => {
     const token = localStorage.getItem('token');
-
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}api/userorders`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-
-      console.log('User orders fetched successfully:', response.data);
-    
-      setOrderData(response.data.orders);  // Array of user order objects
+      setOrderData(response.data.orders);
     } catch (error) {
       console.error('Error fetching user orders:', error.response ? error.response.data : error.message);
     }
@@ -28,36 +22,45 @@ const MyOrder = () => {
 
   return (
     <div className='p-4'>
-      <h2 className="text-2xl font-bold mb-4">My Orders</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">My Orders</h2>
 
       {orderData.length === 0 ? (
-        <p>No orders found.</p>
+        <p className="text-gray-600">No orders found.</p>
       ) : (
         orderData.map((order, index) => (
-          <div key={index} className=" rounded-lg mb-6 p-4 ">
-            {console.log('Order details:', order)}
+          <div key={index} className="rounded-lg mb-8 p-4 bg-gray-50 shadow-sm animate-fadeIn">
+            {/* <h3 className="text-lg font-semibold text-gray-700 mb-3">Order #{index + 1}</h3> */}
 
-            {/* <p><strong>Date:</strong> {new Date(order.createdAt).toLocaleString()}</p> */}
-
-            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-2 mt-4 ">
-
-              {(order.orders.reverse()).map((item, idx) => (  //reverse the array so that latest order shown on first
-                
-
-                  <div key={idx} className="card border rounded p-3 shadow-lg">
-                    <img className="w-full h-40 object-cover rounded" src={item.cardimage} alt={item.cardname} />
-                    <h4 className="font-bold mt-2">{item.cardname}</h4>
-                    <p>Price: ₹{item.price}</p>
-                    <p>Quantity: {item.qty}</p>
-                    <p><strong>Date:</strong> {new Date(item.createdAt).toLocaleString()}</p>
-
-                  </div>
-              
+            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {order.orders.reverse().map((item, idx) => (
+                <div
+                  key={idx}
+                  className="border rounded-lg p-3 shadow hover:shadow-md transition transform hover:scale-105 animate-fadeIn bg-white"
+                >
+                  <img className="w-full h-40 object-cover rounded" src={item.cardimage} alt={item.cardname} />
+                  <h4 className="font-bold mt-2 text-gray-800">{item.cardname}</h4>
+                  <p className="text-sm text-gray-600">Price: ₹{item.price}</p>
+                  <p className="text-sm text-gray-600">Quantity: {item.qty}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Date: {new Date(item.createdAt).toLocaleString()}
+                  </p>
+                </div>
               ))}
             </div>
           </div>
         ))
       )}
+
+      {/* Animations */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-in-out;
+        }
+      `}</style>
     </div>
   );
 };
