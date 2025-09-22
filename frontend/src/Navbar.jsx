@@ -35,6 +35,11 @@ const Navbar = () => {
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? "✖" : "☰"}
+        {!menuOpen?cartItems.length > 0 && (
+                  <span className="absolute top-3 right-3 bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">
+                    {cartItems.length}
+                  </span>
+                ):""}
       </button>
 
       {/* Nav Links */}
@@ -47,44 +52,45 @@ const Navbar = () => {
       >
         {localStorage.getItem("token") ? (
           <>
-            <li className="px-4 py-2 relative group">
-              <Link to="/"  className={`font-medium ${
+          <Link to="/"  className={`font-medium ${
             isActive("/") ? "text-green-600 border-b-2 border-green-600" : "text-gray-700 hover:text-green-600"
           }`}>
+            <li className="px-4 py-2 relative group">
+              
                 Home
-              </Link>
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
             </li>
-            <li className="px-4 py-2 relative group">
+              </Link>
               <Link to="/myorders"  className={`font-medium ${
             isActive("/myorders") ? "text-green-600 border-b-2 border-green-600" : "text-gray-700 hover:text-green-600"
           }`}>
+            <li className="px-4 py-2 relative group">
                 My Orders
-              </Link>
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
             </li>
-            <li className="px-4 py-2 relative group">
+              </Link>
               <Link to="/cart"  className={`font-medium ${
             isActive("/cart") ? "text-green-600 border-b-2 border-green-600" : "text-gray-700 hover:text-green-600"
           }`}>
+            <li className="px-4 py-2 relative group">
                 Cart
                 {cartItems.length > 0 && (
-                  <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span className="absolute -top-2 right-[19px] md:-right-[12px]  bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">
                     {cartItems.length}
                   </span>
                 )}
-              </Link>
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
             </li>
+              </Link>
             {role === "admin" && (
-              <li className="px-4 py-2 relative group">
                 <Link to="/admin"  className={`font-medium ${
             isActive("/admin") ? "text-green-600 border-b-2 border-green-600" : "text-gray-700 hover:text-green-600"
           }`}>
+              <li className="px-4 py-2 relative group">
                   Admin
-                </Link>
                 <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </li>
+                </Link>
             )}
             <li
               className="px-4 py-2 cursor-pointer relative group"
@@ -96,22 +102,22 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <li className="px-4 py-2 relative group">
               <Link to="/signup"  className={`font-medium ${
             isActive("/signup") ? "text-green-600 border-b-2 border-green-600" : "text-gray-700 hover:text-green-600"
           }`}>
+            <li className="px-4 py-2 relative group">
                 Signup
-              </Link>
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
             </li>
-            <li className="px-4 py-2 relative group">
+              </Link>
               <Link to="/login"  className={`font-medium ${
             isActive("/login") ? "text-green-600 border-b-2 border-green-600" : "text-gray-700 hover:text-green-600"
           }`}>
+            <li className="px-4 py-2 relative group">
                 Login
-              </Link>
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
             </li>
+              </Link>
           </>
         )}
       </ul>
