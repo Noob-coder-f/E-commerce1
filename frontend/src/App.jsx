@@ -9,6 +9,7 @@ import Cart from './Cart'
 import MyOrder from './MyOrder'
 import PaymentSuccess from './PaymentSuccess'
 import Footer from './Footer'
+import ProtectedRoute from './ProtectedRoute'
 
 const App = () => {
   return (
@@ -18,13 +19,13 @@ const App = () => {
           <Navbar />
           <Routes>
 
-            <Route path='/' element={< Home />} />
+            <Route path='/' element={<ProtectedRoute >< Home /></ProtectedRoute>} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/home' element={<Home />} />
-            <Route path='/admin' element={<Admin />} />
-            <Route path='/cart' element={<Cart />} />
-            <Route path='/myorders' element={<MyOrder />} />
+            <Route path='/home' element={<ProtectedRoute >< Home /></ProtectedRoute>} />
+            <Route path='/admin' element={<ProtectedRoute >< Admin /></ProtectedRoute>} />
+            <Route path='/cart' element={<ProtectedRoute >< Cart /></ProtectedRoute>} />
+            <Route path='/myorders' element={<ProtectedRoute >< MyOrder /></ProtectedRoute>} />
             <Route path='/paymentSuccess' element={<PaymentSuccess />} />
 
 
