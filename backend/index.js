@@ -17,6 +17,8 @@ import adminRoute from './routes/admin.route.js';
 import razorpay from 'razorpay';
 import paymentLink from './routes/payment.route.js';
 
+import aiRoute from './routes/ai.route.js';
+
 // import razorpayRoutes from './routes/razorpay.route.js';
 // import cookieParser from 'cookie-parser';
 
@@ -102,7 +104,7 @@ app.set("io", io); // store io in app so routes can use it
 
 app.use('/api',userRoute);
 app.use('/api',adminRoute);
-
+app.use('/api',aiRoute);
 // app.use('/api/payments/razorpay', razorpayRoutes); // ✅ Razorpay routes
 
 server.listen(PORT,()=>{

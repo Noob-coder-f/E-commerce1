@@ -10,6 +10,7 @@ import MyOrder from './MyOrder'
 import PaymentSuccess from './PaymentSuccess'
 import Footer from './Footer'
 import ProtectedRoute from './ProtectedRoute'
+import ChatWidget from './ChatWidget'
 
 const App = () => {
   return (
@@ -31,7 +32,14 @@ const App = () => {
 
           </Routes>
           <Footer />
+
+          {/* Floating AI Chat Assistant */}
+        <div style={{ position: "fixed", bottom: 20, right: 20, zIndex: 1000 }}>
+          <ChatWidget backendUrl="/api/ai/chat" />
+        </div>
+          {/* Floating AI Chat Assistant End */}
         </Router>
+
 
       
     </>
