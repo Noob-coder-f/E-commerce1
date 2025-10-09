@@ -31,6 +31,6 @@ In this case, it would be "abc123".
     next();
   } catch (error) {
     console.error("JWT verify error:", error.message);
-    return res.status(403).json({ message: "Invalid token" });
+    return res.status(403).json({ message: "Invalid token" ,success : false});//403 means server understood the request but refuse to authorize it
   }
 };

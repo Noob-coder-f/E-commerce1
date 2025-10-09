@@ -8,6 +8,7 @@ const Home = () => {
   const [card, setCard] = useState([])  // currently visible cards (filtered or all)
   const [allCard, setAllCard] = useState([])  // all cards fetched from the server
   const [qty, setQty] = useState({})
+  const [search, setSearch] = useState('')
   const [filterMenu, setFilterMenu] = useState(false)
   const navigate = useNavigate()
 
@@ -35,19 +36,31 @@ const Home = () => {
         localStorage.removeItem('token')
         navigate('/login')
       }
+      else if (error.response && error.response.data.success === false) {
+        localStorage.removeItem('token')
+        navigate('/login')
+      }
     }
   }
 
   useEffect(() => {
-    getCards()
-  }, [])
+    getCards();
+
+    // its support debouncing, if user types continuously it will not call handleSearch function
+    // it will call handleSearch function when user stops typing for 800ms
+    const timer = setTimeout(() => {
+      handleSearch()
+    }, 800);
+    return () => clearTimeout(timer) //cleanup function to clear the timer if user types again within 800ms its not call handleSearch function
+    // its run when component unmount or before next useEffect call, unmount mmeans component remove from the UI
+  }, [search])
 
   const handleQtyChange = (id, value) => {
     setQty(prev => ({ ...prev, [id]: Number(value) }))
   }
 
   const handleSearch = e => {
-    const query = e.target.value
+    const query = search.trim().toLowerCase()  //trim whitespace ko hata deta hai
     if (query === '') return getCards()
 
     const filterCard = card.filter(item =>
@@ -81,7 +94,9 @@ const Home = () => {
           <input
             type="search"
             placeholder="Search products..."
-            onChange={handleSearch}
+            value={search}
+            // onChange={handleSearch}
+            onChange={e => { setSearch(e.target.value) }}
             className="flex-1 sm:w-72 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
           />
         </div>
@@ -101,7 +116,7 @@ const Home = () => {
         <div className="absolute top-[15rem] sm:top-[17rem] md:top-[9.5rem] right-4 z-50">
           <div className="w-64 bg-white shadow-xl p-4 rounded-lg animate-slideIn">
 
-            <button className='fixed top-[9.5rem] right-7 text-center text-2xl w-7 h-8  rounded-b-2xl bg-gray-50 ' onClick={() => {  setFilterMenu(false) }}
+            <button className='fixed top-[9.5rem] right-7 text-center text-2xl w-7 h-8  rounded-b-2xl bg-gray-50 ' onClick={() => { setFilterMenu(false) }}
             >x</button>
 
             <h2 className="text-lg font-bold mb-4 text-slate-800">Filter by Price</h2>
